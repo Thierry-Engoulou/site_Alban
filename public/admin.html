@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administration &amp; Devis — HIGH QUALITY Télécoms</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+
+  <!-- ==================== ÉCRAN DE CONNEXION ==================== -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-card">
+      <div class="logo">
+        <svg width="36" height="36" viewBox="0 0 40 40" fill="none">
+          <rect width="40" height="40" rx="10" fill="#072942"/>
+          <path d="M11 28V12M11 20h18M29 12v16" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+          <circle cx="11" cy="12" r="3" fill="#FF7900"/><circle cx="29" cy="28" r="3" fill="#FF7900"/>
+        </svg>
+        <div>
+          <b style="font-size:1.15rem; color:#072942; display:block;">HIGH QUALITY</b>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:#64748b; text-transform:uppercase;">Infrastructures &amp; Réseaux</span>
+        </div>
+      </div>
+      <h2>Portail Direction</h2>
+      <p>Connectez-vous pour piloter les demandes de devis et dossiers techniques.</p>
+
+      <form id="admin-login-form">
+        <div class="field">
+          <label for="admin-user">Identifiant</label>
+          <input type="text" id="admin-user" value="admin" required autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="admin-pass">Mot de passe</label>
+          <input type="password" id="admin-pass" value="HighQuality2026!" required autocomplete="current-password">
+        </div>
+        <button type="submit">Accéder au tableau de bord</button>
+        <div class="err" id="login-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== ÉCRAN DASHBOARD ==================== -->
+  <div class="dashboard-screen" id="dashboard-screen">
+    <header class="admin-header">
+      <div class="brand-area">
+        <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+          <rect width="40" height="40" rx="8" fill="#FF7900"/>
+          <path d="M11 28V12M11 20h18M29 12v16" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <b>HIGH QUALITY TÉLÉCOMS</b>
+        <span>Portail Affaires</span>
+      </div>
+      <div class="admin-actions">
+        <a href="/" target="_blank" style="color:#9fc0d8; font-size:0.86rem; text-decoration:none; font-weight:600; margin-right:10px;">Voir le site public ↗</a>
+        <button class="btn-export" id="btn-export-csv">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Exporter CSV
+        </button>
+        <button class="btn-logout" id="admin-logout-btn">Déconnexion</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <!-- Cartes KPI -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="lbl">Total Demandes</div>
+          <div class="num" id="kpi-total">0</div>
+        </div>
+        <div class="kpi-card nouveau">
+          <div class="lbl">Nouveaux dossiers</div>
+          <div class="num" id="kpi-nouveau">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="lbl">En cours d'étude</div>
+          <div class="num" id="kpi-encours">0</div>
+        </div>
+        <div class="kpi-card valide">
+          <div class="lbl">Devis transmis / Signés</div>
+          <div class="num" id="kpi-valide">0</div>
+        </div>
+      </section>
+
+      <!-- Table Toolbar -->
+      <div class="table-toolbar">
+        <div class="search-box">
+          <input type="text" id="admin-search-input" placeholder="Rechercher par référence, client, société, mot-clé...">
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-btn active" data-status="TOUS">Tous</button>
+          <button class="filter-btn" data-status="NOUVEAU">Nouveaux</button>
+          <button class="filter-btn" data-status="EN_COURS">En étude</button>
+          <button class="filter-btn" data-status="DEVIS_TRANSMIS">Transmis</button>
+          <button class="filter-btn" data-status="SIGNE">Validés</button>
+          <button class="filter-btn" data-status="ARCHIVE">Archivés</button>
+        </div>
+      </div>
+
+      <!-- Table des devis -->
+      <div class="table-container">
+        <table class="quotes-table">
+          <thead>
+            <tr>
+              <th>Réf. Dossier</th>
+              <th>Client / Entreprise</th>
+              <th>Métier demandé</th>
+              <th>Localisation</th>
+              <th>Statut</th>
+              <th>Date de réception</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="quotes-table-body">
+            <tr><td colspan="7" style="text-align:center; padding:30px;">Chargement des données...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Détail Dossier -->
+  <div class="lead-modal" id="lead-modal">
+    <div class="lead-card">
+      <button id="lead-modal-close" style="position:absolute; top:20px; right:20px; background:transparent; border:1px solid #cbd5e1; width:32px; height:32px; border-radius:6px; cursor:pointer;">✕</button>
+      <h3>Détail du Dossier d'Ingénierie</h3>
+      <div id="lead-modal-body"></div>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>
