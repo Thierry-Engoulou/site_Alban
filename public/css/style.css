@@ -1151,3 +1151,112 @@ footer .wrap { padding-block: 60px 30px; }
   .form-grid-2 { grid-template-columns: 1fr; }
   .fgrid { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   OPTIMISATIONS SPÉCIFIQUES POUR SMARTPHONES (<= 540px)
+   ============================================================ */
+@media (max-width: 540px) {
+  /* Évite le zoom intempestif sur iOS Safari */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  /* Top bar simplifiée sur smartphone */
+  .top-notice .wrap {
+    flex-direction: column;
+    text-align: center;
+    gap: 4px;
+    padding-block: 4px;
+  }
+  .top-notice div:last-child { display: none; }
+
+  /* Hero Banner optimisé */
+  .hero .wrap {
+    padding-block: 44px 50px;
+  }
+  .hero-content h1 {
+    font-size: clamp(1.75rem, 8vw, 2.3rem);
+    line-height: 1.15;
+  }
+  .hero .lede {
+    font-size: 0.98rem;
+    margin: 16px 0 24px;
+  }
+  .hero-cta {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Panneau specs hero sur mobile */
+  .hero-panel {
+    padding: 18px 16px;
+  }
+  .specrow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 9px 0;
+  }
+
+  /* Compteurs statistiques 1 colonne ou 2 colonnes serrées */
+  .stats .wrap {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stat {
+    padding: 20px 12px;
+  }
+  .stat .n {
+    font-size: 1.9rem;
+  }
+  .stat .l {
+    font-size: 0.75rem;
+  }
+
+  /* Cartes Métiers & Savoir-faire */
+  .mcard, .terrain-card {
+    padding: 22px 18px;
+  }
+
+  /* Étapes tracé */
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Estimateur & Calculateur */
+  .calc-box {
+    padding: 20px 16px;
+  }
+  .calc-result {
+    padding: 22px 16px;
+  }
+  .calc-metrics {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Formulaire */
+  form.quote-form {
+    padding: 22px 16px;
+  }
+
+  /* Coordonnées */
+  .cline {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cline .cv {
+    font-size: 0.95rem;
+  }
+
+  /* Modale technique plein écran */
+  .modal-card {
+    padding: 24px 18px;
+    max-height: 94vh;
+  }
+}
+
