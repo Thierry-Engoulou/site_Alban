@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact et devis — HIGH QUALITY</title>
+<meta name="description" content="Demandez un devis pour vos travaux de fibre optique, transmission, génie civil, pylônes ou maintenance. Réponse sous 48 h ouvrées.">
+<meta property="og:title" content="Contact et devis — HIGH QUALITY">
+<meta property="og:description" content="Demandez un devis pour vos travaux de fibre optique, transmission, génie civil, pylônes ou maintenance. Réponse sous 48 h ouvrées.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://images.unsplash.com/photo-1533664488202-6af66d26c44a?auto=format&fit=crop&w=1200&h=630&q=70">
+<meta name="theme-color" content="#07131f">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<header class="site-header is-solid" data-header data-solid>
+  <div class="hdr">
+    <a class="logo" href="index.html" aria-label="HIGH QUALITY, accueil">
+      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="3" fill="#0B3D66"/><path d="M11 28V12M11 20h18M29 12v16" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="11" cy="12" r="3" fill="#FF6A00"/><circle cx="29" cy="28" r="3" fill="#FF6A00"/></svg>
+      <span class="logo-txt">HIGH QUALITY<small>Infrastructures télécoms</small></span>
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="metiers.html">Métiers</a>
+      <a href="references.html">Références</a>
+      <a href="entreprise.html">Entreprise</a>
+      <a href="carrieres.html">Carrières</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+    <a class="btn btn--cta hdr-cta" href="contact.html">Demander un devis</a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" data-burger><span></span><span></span><span class="sr">Menu</span></button>
+  </div>
+</header>
+<div class="menu" id="menu" data-menu hidden>
+  <nav aria-label="Menu mobile">
+    <a href="index.html"><span>00</span>Accueil</a>
+    <a href="metiers.html"><span>01</span>Métiers</a>
+    <a href="references.html"><span>02</span>Références</a>
+    <a href="entreprise.html"><span>03</span>Entreprise</a>
+    <a href="carrieres.html"><span>04</span>Carrières</a>
+    <a href="contact.html"><span>05</span>Contact</a>
+  </nav>
+  <div class="menu-foot">
+    <a href="mailto:contact@highqualityltd.com">contact@highqualityltd.com</a>
+    <span>Douala, Deido · astreinte 24 h/24</span>
+  </div>
+</div>
+
+<main id="contenu">
+  <section class="contact">
+    <aside class="contact__side on-dark">
+      <img src="https://images.unsplash.com/photo-1533664488202-6af66d26c44a?auto=format&fit=crop&w=1200&q=70" alt="" loading="lazy">
+      <span class="label">05 / Contact</span>
+      <h1 class="h-lg">Parlons de votre chantier.</h1>
+      <p class="lead" style="margin-top:20px">Un ingénieur lit chaque demande et vous rappelle sous 48&nbsp;h ouvrées.</p>
+      <dl class="coords">
+        <div><dt>Siège</dt><dd>Deido, Douala<br>Cameroun</dd></div>
+        <div><dt>E-mail</dt><dd><a href="mailto:contact@highqualityltd.com">contact@highqualityltd.com</a><button class="copy" type="button" data-copy="contact@highqualityltd.com">copier</button></dd></div>
+        <!-- Téléphone : à ajouter ici dès que le numéro officiel est confirmé
+        <div><dt>Téléphone</dt><dd><a href="tel:+237XXXXXXXXX">+237 X XX XX XX XX</a></dd></div> -->
+        <div><dt>Heure locale</dt><dd><span data-clock>--</span> à Douala</dd></div>
+        <div><dt>Astreinte</dt><dd>24 h/24, 7 j/7 pour nos clients sous contrat</dd></div>
+      </dl>
+    </aside>
+
+    <div class="contact__main">
+      <div class="tabs" role="tablist" aria-label="Type de demande" data-hash-tabs="1">
+        <button type="button" role="tab" id="t-devis" aria-controls="devis" aria-selected="true">Demande de devis</button>
+        <button type="button" role="tab" id="t-msg" aria-controls="message" aria-selected="false" tabindex="-1">Simple message</button>
+      </div>
+
+      <form class="form" id="devis" role="tabpanel" aria-labelledby="t-devis" data-api="/api/quote" novalidate>
+        <fieldset class="f full">
+          <legend>De quoi avez-vous besoin&nbsp;?</legend>
+          <div class="chips">
+            <label><input type="radio" name="service_type" value="Fibre Optique" checked><span>Fibre optique</span></label>
+            <label><input type="radio" name="service_type" value="Transmission FH"><span>Faisceaux hertziens</span></label>
+            <label><input type="radio" name="service_type" value="VSAT"><span>VSAT</span></label>
+            <label><input type="radio" name="service_type" value="Génie Civil"><span>Génie civil</span></label>
+            <label><input type="radio" name="service_type" value="Montage de Pylônes"><span>Pylônes</span></label>
+            <label><input type="radio" name="service_type" value="Maintenance"><span>Maintenance</span></label>
+            <label><input type="radio" name="service_type" value="Projet global"><span>Plusieurs / projet global</span></label>
+          </div>
+        </fieldset>
+        <div class="f"><label for="q-name">Nom et prénom</label><input id="q-name" name="client_name" autocomplete="name" required></div>
+        <div class="f"><label for="q-co">Entreprise <i>(facultatif)</i></label><input id="q-co" name="company" autocomplete="organization"></div>
+        <div class="f"><label for="q-mail">E-mail professionnel</label><input id="q-mail" name="email" type="email" autocomplete="email" required></div>
+        <div class="f"><label for="q-tel">Téléphone <i>(facultatif)</i></label><input id="q-tel" name="phone" type="tel" autocomplete="tel"></div>
+        <div class="f"><label for="q-loc">Lieu des travaux</label><input id="q-loc" name="location" placeholder="Ville, région ou pays"></div>
+        <fieldset class="f">
+          <legend>Échéance</legend>
+          <div class="chips">
+            <label><input type="radio" name="urgency" value="Normal" checked><span>Normale</span></label>
+            <label><input type="radio" name="urgency" value="Prioritaire"><span>Prioritaire</span></label>
+            <label><input type="radio" name="urgency" value="Urgent"><span>Urgente</span></label>
+          </div>
+        </fieldset>
+        <div class="f full"><label for="q-det">Votre projet</label><textarea id="q-det" name="details" placeholder="Nombre de sites, longueur de fibre, délais, contraintes d'accès…"></textarea></div>
+        <div class="full"><button class="btn btn--cta" type="submit">Envoyer la demande <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button></div>
+        <p class="legal full">Vos informations servent uniquement à répondre à votre demande. Elles ne sont jamais transmises à des tiers.</p>
+        <div class="form-msg" role="status" aria-live="polite"></div>
+      </form>
+
+      <form class="form" id="message" role="tabpanel" aria-labelledby="t-msg" data-api="/api/contact" hidden novalidate>
+        <div class="f"><label for="m-name">Nom et prénom</label><input id="m-name" name="name" autocomplete="name" required></div>
+        <div class="f"><label for="m-mail">E-mail</label><input id="m-mail" name="email" type="email" autocomplete="email" required></div>
+        <div class="f"><label for="m-tel">Téléphone <i>(facultatif)</i></label><input id="m-tel" name="phone" type="tel" autocomplete="tel"></div>
+        <div class="f"><label for="m-sub">Objet</label><input id="m-sub" name="subject" placeholder="Partenariat, fournisseur, presse…"></div>
+        <div class="f full"><label for="m-msg">Message</label><textarea id="m-msg" name="message" required></textarea></div>
+        <div class="full"><button class="btn btn--ink" type="submit">Envoyer le message <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button></div>
+        <div class="form-msg" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot on-dark">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div class="foot__about">
+        <a class="logo" href="index.html" aria-label="HIGH QUALITY, accueil">
+          <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="3" fill="#0B3D66"/><path d="M11 28V12M11 20h18M29 12v16" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="11" cy="12" r="3" fill="#FF6A00"/><circle cx="29" cy="28" r="3" fill="#FF6A00"/></svg>
+          <span class="logo-txt" style="color:#fff">HIGH QUALITY<small>Infrastructures télécoms</small></span>
+        </a>
+        <p>Construction et maintenance d'infrastructures télécoms au Cameroun et en Afrique centrale.</p>
+      </div>
+      <div>
+        <h3>Métiers</h3>
+        <a href="metiers.html#fibre">Fibre optique</a>
+        <a href="metiers.html#fh">Faisceaux hertziens</a>
+        <a href="metiers.html#vsat">VSAT</a>
+        <a href="metiers.html#genie-civil">Génie civil</a>
+        <a href="metiers.html#pylones">Pylônes</a>
+        <a href="metiers.html#maintenance">Maintenance</a>
+      </div>
+      <div>
+        <h3>Société</h3>
+        <a href="entreprise.html">L'entreprise</a>
+        <a href="entreprise.html#demarche">Démarche qualité</a>
+        <a href="entreprise.html#qhse">Sécurité &amp; QHSE</a>
+        <a href="references.html">Références</a>
+        <a href="carrieres.html">Carrières</a>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <a href="mailto:contact@highqualityltd.com">contact@highqualityltd.com</a>
+        <a href="contact.html">Douala, Deido · Cameroun</a>
+        <a href="contact.html">Demander un devis →</a>
+      </div>
+    </div>
+    <div class="foot__word" aria-hidden="true">HIGH QUALITY</div>
+    <div class="foot__bar">
+      <span>© <span data-year>2026</span> HIGH QUALITY Ltd</span>
+      <span>Douala · Yaoundé · partout où passe le réseau</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js" defer></script>
+</body>
+</html>

@@ -55,14 +55,24 @@ site_Alban/
 ├── data/
 │   └── highquality.db    # Base SQLite (créée automatiquement au démarrage)
 ├── public/               # Interface Web
-│   ├── index.html        # Page d'accueil publique complète
+│   ├── index.html        # Accueil
+│   ├── metiers.html      # Les six métiers
+│   ├── references.html   # Clients, zones d'intervention, chantiers types
+│   ├── entreprise.html   # Histoire, valeurs, démarche qualité, QHSE
+│   ├── carrieres.html    # Postes et formulaire de candidature
+│   ├── contact.html      # Demande de devis et message
 │   ├── admin.html        # Interface du portail d'administration
+│   ├── img/favicon.svg
 │   ├── css/
-│   │   ├── style.css     # Feuille de styles du site public
+│   │   ├── site.css      # Feuille de styles du site public
 │   │   └── admin.css     # Styles du tableau de bord d'administration
 │   └── js/
-│       ├── main.js       # Logique interactive front-end
+│       ├── site.js       # Interactions du site public (menu, formulaires, carte…)
+│       ├── carte-data.js # Contours des régions du Cameroun (geoBoundaries, CC BY 4.0)
 │       └── admin.js      # Logique du dashboard admin
+
+> En-tête et pied de page sont répétés dans chaque page HTML : pensez à modifier les six fichiers.
+> Photos : Unsplash (licence libre, usage commercial autorisé, sans attribution obligatoire).
 └── README.md             # Guide complet d'utilisation et de déploiement
 ```
 
