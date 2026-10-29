@@ -33,7 +33,7 @@ Inspirée des standards internationaux de **Camusat**, **CDS Technologies** et *
 
 ### 3. Portail d'Administration Back-Office (`/admin`)
 - Accessible via l'URL : `http://localhost:3000/admin`
-- **Authentification sécurisée** par jeton de session HMAC-SHA256 (Identifiant par défaut : `admin` / Mot de passe : `HighQuality2026!`).
+- **Authentification sécurisée** par jeton de session HMAC-SHA256 (identifiants définis par `ADMIN_USER` et `ADMIN_PASS` dans `.env` ou dans les variables d'environnement Vercel).
 - **Tableau de bord KPI** : Total demandes, Nouveaux devis, En cours d'étude, Devis signés/validés.
 - **Recherche temps réel et filtres dynamiques** par statut.
 - **Modale d'examen de dossier** : consultation complète du cahier des charges, coordonnées client, budget estimé.
@@ -94,7 +94,7 @@ npm start
 - **Site public** : [http://localhost:3000](http://localhost:3000)
 - **Espace Administration** : [http://localhost:3000/admin](http://localhost:3000/admin)
   - Utilisateur : `admin`
-  - Mot de passe : `HighQuality2026!`
+  - Mot de passe : celui défini par `ADMIN_PASS` dans votre fichier `.env`
 
 ---
 

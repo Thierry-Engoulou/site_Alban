@@ -145,7 +145,11 @@ async function createMysqlTables() {
 // Création de l'administrateur par défaut
 async function seedDefaultAdmin() {
   const adminUser = process.env.ADMIN_USER || 'admin';
-  const adminPass = process.env.ADMIN_PASS || 'HighQuality2026!';
+  const adminPass = process.env.ADMIN_PASS;
+  if (!adminPass) {
+    console.warn('⚠ ADMIN_PASS non défini : aucun compte administrateur créé. Renseignez-le dans .env ou sur Vercel.');
+    return;
+  }
   const hash = hashPassword(adminPass);
 
   if (isMysql) {

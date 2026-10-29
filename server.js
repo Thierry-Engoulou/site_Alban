@@ -8,7 +8,9 @@ const mailer = require('./mailer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const SESSION_SECRET = process.env.SESSION_SECRET || 'hq_telecom_douala_secret_salt_2026';
+// Sans SESSION_SECRET, une clé aléatoire est générée : les sessions admin expirent à chaque redémarrage.
+const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
+if (!process.env.SESSION_SECRET) console.warn('⚠ SESSION_SECRET non défini : clé de session temporaire générée.');
 
 // Middleware
 app.use(cors());
