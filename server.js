@@ -18,7 +18,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Servir les fichiers statiques depuis le dossier public
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 
 // Simple système de Token pour sécuriser l'API /admin
 function generateToken(username) {
@@ -137,6 +137,59 @@ app.get('/api/public-stats', async (req, res) => {
   });
 });
 
+// 4. Mesure d'audience anonyme : pages vues et présence en direct.
+// Aucune adresse IP n'est enregistrée ; le pays et la ville viennent des en-têtes de Vercel.
+const BOT_RE = /bot|crawl|spider|slurp|preview|headless|lighthouse|facebookexternalhit|whatsapp|bingpreview|curl|wget|python|node-fetch/i;
+
+function sourceFromReferrer(ref, utm) {
+  if (utm) return String(utm).slice(0, 60);
+  if (!ref) return 'Accès direct';
+  let host = '';
+  try { host = new URL(ref).hostname.replace(/^www\./, ''); } catch (e) { return 'Accès direct'; }
+  const known = [
+    [/(^|\.)google\./, 'Google'], [/bing\.com$/, 'Bing'], [/yahoo\./, 'Yahoo'], [/duckduckgo\.com$/, 'DuckDuckGo'],
+    [/(facebook\.com|fb\.com|fb\.me)$/, 'Facebook'], [/instagram\.com$/, 'Instagram'], [/(linkedin\.com|lnkd\.in)$/, 'LinkedIn'],
+    [/(t\.co|twitter\.com|x\.com)$/, 'X (Twitter)'], [/(whatsapp\.com|wa\.me)$/, 'WhatsApp'], [/(youtube\.com|youtu\.be)$/, 'YouTube'],
+    [/tiktok\.com$/, 'TikTok'], [/chatgpt\.com|openai\.com/, 'ChatGPT']
+  ];
+  for (const [re, name] of known) if (re.test(host)) return name;
+  return host.slice(0, 80);
+}
+
+function parseAgent(ua) {
+  const device = /iPad|Tablet/i.test(ua) ? 'Tablette' : /Mobi|Android|iPhone/i.test(ua) ? 'Mobile' : 'Ordinateur';
+  const browser = /Edg\//.test(ua) ? 'Edge' : /OPR\/|Opera/.test(ua) ? 'Opera' : /SamsungBrowser/.test(ua) ? 'Samsung Internet'
+    : /Firefox\//.test(ua) ? 'Firefox' : /Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : 'Autre';
+  const os = /Windows/.test(ua) ? 'Windows' : /Android/.test(ua) ? 'Android' : /iPhone|iPad|iOS/.test(ua) ? 'iOS'
+    : /Mac OS X|Macintosh/.test(ua) ? 'macOS' : /Linux/.test(ua) ? 'Linux' : 'Autre';
+  return { device, browser, os };
+}
+
+app.post('/api/hit', async (req, res) => {
+  try {
+    const ua = req.headers['user-agent'] || '';
+    const { sid, type, path: pagePath, ref, utm } = req.body || {};
+    if (BOT_RE.test(ua) || typeof sid !== 'string' || !/^[a-z0-9]{8,40}$/i.test(sid)) return res.status(204).end();
+
+    let city = req.headers['x-vercel-ip-city'] || '';
+    try { city = decodeURIComponent(city); } catch (e) { /* valeur brute */ }
+
+    await db.recordHit({
+      sid,
+      type: type === 'view' ? 'view' : 'ping',
+      path: String(pagePath || '/').slice(0, 200),
+      source: ref === undefined ? null : sourceFromReferrer(ref, utm),
+      country: String(req.headers['x-vercel-ip-country'] || '').slice(0, 8) || null,
+      city: city.slice(0, 80) || null,
+      ...parseAgent(ua)
+    });
+    res.status(204).end();
+  } catch (error) {
+    console.error('Erreur POST /api/hit:', error);
+    res.status(204).end();
+  }
+});
+
 // ==============================================================
 // ROUTES ADMINISTRATION (BACK-OFFICE)
 // ==============================================================
@@ -214,6 +267,41 @@ app.delete('/api/admin/quotes/:id', requireAdmin, async (req, res) => {
   try {
     await db.deleteQuote(req.params.id);
     res.json({ success: true, message: 'Dossier supprimé.' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Messages et candidatures
+app.get('/api/admin/messages', requireAdmin, async (req, res) => {
+  try {
+    res.json(await db.getMessages({ kind: req.query.kind, search: req.query.search }));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/admin/messages/:id', requireAdmin, async (req, res) => {
+  try {
+    await db.deleteMessage(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Fréquentation : visiteurs en direct (léger, interrogé toutes les 10 s) et statistiques complètes
+app.get('/api/admin/live', requireAdmin, async (req, res) => {
+  try {
+    res.json(await db.getLive());
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/admin/analytics', requireAdmin, async (req, res) => {
+  try {
+    res.json({ storage: db.dialect, ...(await db.getAnalytics({ days: req.query.days })) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

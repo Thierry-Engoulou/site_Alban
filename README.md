@@ -24,8 +24,9 @@ Inspirée des standards internationaux de **Camusat**, **CDS Technologies** et *
 
 ### 2. Backend & Base de Données
 - **Serveur Express.js moderne et sécurisé**.
-- **Double Compatibilité de Base de Données** :
-  - **SQLite embarqué** (par défaut, zéro configuration requise, idéal pour tester immédiatement en local).
+- **Base de Données au choix** :
+  - **PostgreSQL / Neon** (recommandé sur Vercel) : activé dès que `DATABASE_URL` existe, ce que fait Vercel quand la base Neon est connectée au projet (onglet Storage).
+  - **SQLite embarqué** (par défaut, zéro configuration requise, idéal pour tester immédiatement en local). Sur Vercel, il n'est pas persistant.
   - **MySQL / MariaDB** (prêt pour la production sur cPanel, phpMyAdmin ou VPS via simple variable dans le fichier `.env`).
 - **Service d'Emailing Professionnel SMTP (Nodemailer)** :
   - Envoi automatique d'une notification HTML stylisée à `contact@highqualityltd.com` à chaque nouveau devis ou message.
@@ -39,6 +40,9 @@ Inspirée des standards internationaux de **Camusat**, **CDS Technologies** et *
 - **Modale d'examen de dossier** : consultation complète du cahier des charges, coordonnées client, budget estimé.
 - **Mise à jour du statut en un clic** (`NOUVEAU`, `EN_COURS`, `DEVIS_TRANSMIS`, `SIGNE`, `ARCHIVE`).
 - **Export CSV en un clic** pour intégration directe dans Excel ou votre logiciel ERP/Comptabilité.
+- **Onglets Messages et Candidatures** : lecture, réponse par e-mail, suppression.
+- **Onglet Visiteurs** : personnes en ligne (rafraîchi toutes les 10 s), visites par jour, provenance, pays, villes, appareils, pages vues et parcours des dernières visites.
+  La mesure est anonyme : un identifiant aléatoire par onglet, effacé à sa fermeture, sans cookie ni adresse IP enregistrée. Les visites des navigateurs connectés à l'admin ne sont pas comptées. Les visites de plus de 13 mois sont supprimées automatiquement.
 
 ---
 

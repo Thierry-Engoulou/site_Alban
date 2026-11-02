@@ -55,6 +55,7 @@
         <span>Portail Affaires</span>
       </div>
       <div class="admin-actions">
+        <span class="live-pill" id="live-pill" title="Visiteurs sur le site en ce moment"><i></i><b id="live-count">0</b> en ligne</span>
         <a href="/" target="_blank" style="color:#9fc0d8; font-size:0.86rem; text-decoration:none; font-weight:600; margin-right:10px;">Voir le site public ↗</a>
         <button class="btn-export" id="btn-export-csv">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
@@ -64,7 +65,95 @@
       </div>
     </header>
 
-    <main class="admin-main">
+    <nav class="admin-tabs" role="tablist" aria-label="Rubriques">
+      <button role="tab" class="admin-tab active" data-panel="panel-visits" aria-selected="true">Visiteurs</button>
+      <button role="tab" class="admin-tab" data-panel="panel-quotes" aria-selected="false">Devis <em id="badge-quotes"></em></button>
+      <button role="tab" class="admin-tab" data-panel="panel-messages" data-kind="messages" aria-selected="false">Messages <em id="badge-messages"></em></button>
+      <button role="tab" class="admin-tab" data-panel="panel-messages" data-kind="candidatures" aria-selected="false">Candidatures <em id="badge-candidatures"></em></button>
+    </nav>
+
+    <!-- ==================== VISITEURS ==================== -->
+    <main class="admin-main admin-panel" id="panel-visits">
+      <div class="storage-warn" id="storage-warn" hidden>
+        <b>Base de données temporaire.</b> Les visites et les devis enregistrés sur Vercel peuvent être effacés à tout moment.
+        Connectez la base Neon au projet (Vercel → Storage) puis redéployez.
+      </div>
+
+      <section class="kpi-grid">
+        <div class="kpi-card live">
+          <div class="lbl"><i class="dot"></i>En ligne maintenant</div>
+          <div class="num" id="v-live">0</div>
+          <div class="sub">mis à jour toutes les 10 s</div>
+        </div>
+        <div class="kpi-card">
+          <div class="lbl">Visites aujourd'hui</div>
+          <div class="num" id="v-today">0</div>
+          <div class="sub"><span id="v-today-views">0</span> pages vues</div>
+        </div>
+        <div class="kpi-card">
+          <div class="lbl">Visites sur la période</div>
+          <div class="num" id="v-period">0</div>
+          <div class="sub"><span id="v-period-views">0</span> pages vues</div>
+        </div>
+        <div class="kpi-card">
+          <div class="lbl">Pages par visite</div>
+          <div class="num" id="v-depth">0</div>
+          <div class="sub">moyenne sur la période</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h3>Visites par jour</h3>
+          <div class="filter-tabs" id="v-range">
+            <button class="filter-btn" data-days="7">7 jours</button>
+            <button class="filter-btn active" data-days="30">30 jours</button>
+            <button class="filter-btn" data-days="90">90 jours</button>
+          </div>
+        </div>
+        <div class="chart" id="v-chart" role="img" aria-label="Nombre de visites par jour"></div>
+      </section>
+
+      <section class="v-grid">
+        <div class="card"><h3>En ce moment</h3><div class="bars" id="v-now"></div></div>
+        <div class="card"><h3>D'où viennent-ils&nbsp;?</h3><div class="bars" id="v-sources"></div></div>
+        <div class="card"><h3>Pays</h3><div class="bars" id="v-countries"></div></div>
+        <div class="card"><h3>Villes</h3><div class="bars" id="v-cities"></div></div>
+        <div class="card"><h3>Appareils</h3><div class="bars" id="v-devices"></div></div>
+        <div class="card"><h3>Pages les plus vues</h3><div class="bars" id="v-pages"></div></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h3>Dernières visites <small>(7 derniers jours)</small></h3>
+          <span class="muted-note">Anonymes : ni nom, ni adresse IP. Cliquez sur une ligne pour voir le parcours.</span>
+        </div>
+        <div class="table-scroll">
+          <table class="quotes-table">
+            <thead><tr><th>Heure</th><th>Lieu</th><th>Appareil</th><th>Provenance</th><th>Pages</th><th>Durée</th></tr></thead>
+            <tbody id="v-sessions"><tr><td colspan="6" class="empty">Chargement…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==================== MESSAGES / CANDIDATURES ==================== -->
+    <main class="admin-main admin-panel" id="panel-messages" hidden>
+      <div class="table-toolbar">
+        <div class="search-box">
+          <input type="text" id="msg-search-input" placeholder="Rechercher par nom, e-mail, objet, mot-clé...">
+        </div>
+      </div>
+      <div class="table-container">
+        <table class="quotes-table">
+          <thead><tr><th>Reçu le</th><th>Nom</th><th>Contact</th><th>Objet</th><th>Message</th><th>Action</th></tr></thead>
+          <tbody id="msg-table-body"><tr><td colspan="6" class="empty">Chargement…</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- ==================== DEVIS ==================== -->
+    <main class="admin-main admin-panel" id="panel-quotes" hidden>
       <!-- Cartes KPI -->
       <section class="kpi-grid">
         <div class="kpi-card">
@@ -126,7 +215,7 @@
   <div class="lead-modal" id="lead-modal">
     <div class="lead-card">
       <button id="lead-modal-close" style="position:absolute; top:20px; right:20px; background:transparent; border:1px solid #cbd5e1; width:32px; height:32px; border-radius:6px; cursor:pointer;">✕</button>
-      <h3>Détail du Dossier d'Ingénierie</h3>
+      <h3 id="lead-modal-title">Détail du Dossier d'Ingénierie</h3>
       <div id="lead-modal-body"></div>
     </div>
   </div>

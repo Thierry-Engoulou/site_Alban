@@ -240,6 +240,46 @@
     });
   });
 
+  /* ---------- mesure d'audience anonyme ----------
+     Un identifiant aléatoire par onglet (sessionStorage, effacé à la fermeture), pas de cookie,
+     pas d'adresse IP enregistrée. Les navigateurs de l'équipe connectée à /admin ne sont pas comptés. */
+  (function () {
+    var skip = false;
+    try { skip = localStorage.getItem('hq-admin') === '1'; } catch (e) {}
+    if (skip || navigator.webdriver || location.protocol === 'file:') return;
+
+    var sid, first = false;
+    function rnd() {
+      var a = new Uint8Array(8);
+      (window.crypto || window.msCrypto).getRandomValues(a);
+      return Array.prototype.map.call(a, function (b) { return ('0' + b.toString(16)).slice(-2); }).join('');
+    }
+    try {
+      sid = sessionStorage.getItem('hq-sid');
+      if (!sid) { sid = rnd(); first = true; sessionStorage.setItem('hq-sid', sid); }
+    } catch (e) { sid = rnd(); first = true; }
+
+    var page = location.pathname.replace(/\.html$/, '').replace(/\/index$/, '/') || '/';
+    function send(body) {
+      var json = JSON.stringify(body);
+      if (navigator.sendBeacon && navigator.sendBeacon('/api/hit', new Blob([json], { type: 'application/json' }))) return;
+      try { fetch('/api/hit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: json, keepalive: true }); } catch (e) {}
+    }
+
+    var view = { sid: sid, type: 'view', path: page };
+    if (first) {
+      var ref = '';
+      try { if (document.referrer && new URL(document.referrer).host !== location.host) ref = document.referrer; } catch (e) {}
+      view.ref = ref;
+      if (params.get('utm_source')) view.utm = params.get('utm_source');
+    }
+    send(view);
+
+    var ping = function () { if (document.visibilityState === 'visible') send({ sid: sid, type: 'ping', path: page }); };
+    setInterval(ping, 45000);
+    document.addEventListener('visibilitychange', ping);
+  })();
+
   /* ---------- carte du Cameroun ---------- */
   var mapEl = document.querySelector('[data-map]');
   if (mapEl && window.HQ_MAP) buildMap(mapEl, window.HQ_MAP);
