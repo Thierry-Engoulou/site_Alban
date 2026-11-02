@@ -133,6 +133,8 @@ button{font:inherit;color:inherit}
 .hero h1{max-width:none}
 .hero__row{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-top:clamp(22px,3vw,36px)}
 .hero__row .lead{color:#d6dee6;max-width:40ch}
+.hero__row .lead--wide{max-width:56ch}
+.h-hero{font-size:clamp(2.3rem,6.4vw,6.6rem)}
 .hero__ctas{display:flex;gap:12px;flex-wrap:wrap}
 .ticker{border-top:1px solid var(--line-inv);font-size:.82rem;color:#c3cfda}
 .ticker .wrap{display:flex;gap:clamp(16px,3vw,44px);padding-block:14px;align-items:center;flex-wrap:wrap}

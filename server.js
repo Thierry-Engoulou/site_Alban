@@ -130,8 +130,8 @@ app.post('/api/contact', async (req, res) => {
 app.get('/api/public-stats', async (req, res) => {
   res.json({
     expertises: 6,
-    sites_construits: '450+',
-    km_fibre: '3 200+',
+    sites_construits: '250+',
+    km_fibre: '1 000+',
     disponibilite: '24/7/365',
     sla_compliance: '99.98%'
   });
